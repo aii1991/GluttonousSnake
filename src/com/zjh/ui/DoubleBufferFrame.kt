@@ -9,7 +9,7 @@ import javax.swing.JFrame
  *  实现双缓存绘制的frame
  */
 abstract class DoubleBufferFrame(width: Int=600,height: Int=600) : JFrame(){
-    private lateinit var updateThread: UpdateThread;
+    private lateinit var uiThread: UIThread;
     private var iBuff: Image? = null
     private var gBuffer: Graphics? = null
     var isStopDrawThread:Boolean = false;
@@ -20,8 +20,8 @@ abstract class DoubleBufferFrame(width: Int=600,height: Int=600) : JFrame(){
 
         isVisible = true
         defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        updateThread = UpdateThread((1000/DIFFICULTY).toLong())
-        updateThread.start()
+        uiThread = UIThread((1000/DIFFICULTY).toLong())
+        uiThread.start()
     }
 
     override fun paint(g: Graphics?) {
@@ -49,7 +49,7 @@ abstract class DoubleBufferFrame(width: Int=600,height: Int=600) : JFrame(){
     abstract fun dPaint(g: Graphics?);
 
 
-    inner class UpdateThread(timeMillis:Long = 500): Thread(){
+    inner class UIThread(timeMillis:Long = 500): Thread(){
         val timeMillis:Long = timeMillis
 
         override fun run() {

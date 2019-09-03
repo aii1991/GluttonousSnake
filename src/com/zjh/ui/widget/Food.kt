@@ -26,11 +26,14 @@ class Food() : View{
         g.fillRect(x,y,widthAndHeight,widthAndHeight)
     }
 
+    /**
+     * 生成食物
+     */
     fun generateFood(cellList: ArrayList<Snake.Cell>){
         while(true){
             val point = GameUtils.generatePosition()
             var isSuccess = true;
-            for(cell in cellList){
+            for(cell in cellList){ //排除小蛇的坐标
                 if(cell.x == point.x && cell.y == point.y){
                     isSuccess = false
                 }

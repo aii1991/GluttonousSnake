@@ -10,7 +10,7 @@ import javax.swing.JOptionPane
 
 /**
  * Created by ${juha} on 2019/8/30.
- *
+ *  游戏主界面
  */
 class MainFrame(width:Int,height:Int) : DoubleBufferFrame(width,height), KeyListener {
     var isConfirmStart = false; //是否确认开始
@@ -37,7 +37,7 @@ class MainFrame(width:Int,height:Int) : DoubleBufferFrame(width,height), KeyList
         }
         if(isOver()){
             isStopDrawThread = true;
-            if(JOptionPane.showOptionDialog(this,"游戏结束,得分${snake.getCellCount() * SCORE},是否重新开始","提示",JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE,null,null,null) == 0){
+            if(JOptionPane.showOptionDialog(this,"游戏结束,得分${(snake.getCellCount()-1) * SCORE},是否重新开始","提示",JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE,null,null,null) == 0){
                 snake.initCellList()
                 initData()
                 isStopDrawThread = false;

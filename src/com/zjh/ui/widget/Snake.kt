@@ -10,14 +10,14 @@ import java.util.*
  *
  */
 class Snake() : View{
-    enum class Direction{
+    enum class Direction{ //方向枚举
         TOP,RIGHT,BOTTOM,LEFT
     }
 
-    var cellList: ArrayList<Cell> = ArrayList()
-    var color: Color = Color.GREEN
+    var cellList: ArrayList<Cell> = ArrayList() //蛇的每一节列表
+    var color: Color = Color.GREEN //蛇的颜色
 
-    private var inflectionPoint: ArrayList<Cell> = ArrayList()
+    private var inflectionPoint: ArrayList<Cell> = ArrayList() //记录发生转向的蛇头
 
     init {
         initCellList()
@@ -28,6 +28,9 @@ class Snake() : View{
         cellList.add(Cell(0,0, Direction.LEFT))
     }
 
+    /**
+     * 检查是否成功进食,是=增加蛇身长度,否则不做处理
+     */
     fun tryEat(food: Food): Boolean{
         if(cellList[0].x == food.x && cellList[0].y == food.y){
             val lastCell = cellList[cellList.size - 1];
@@ -42,15 +45,16 @@ class Snake() : View{
         return false
     }
 
+
     fun walk(){
         for(index in cellList.indices){
             val cell:Cell = cellList[index]
             if(index != 0){
-                for(pCell in inflectionPoint){
+                for(pCell in inflectionPoint){ //判断蛇身的每一个正方形是否经过蛇头转向点,是改变方向
                     if(cell.x == pCell.x && cell.y == pCell.y){
                         cell.direction = pCell.direction
                         println("change direction")
-                        if(index == cellList.size-1){
+                        if(index == cellList.size-1){ //当蛇尾也经过蛇头转向点时,从列表删除转向信息
                             inflectionPoint.remove(pCell)
                         }
                         break;
@@ -59,7 +63,7 @@ class Snake() : View{
             }
 
 
-            when(cell.direction){
+            when(cell.direction){ //根据方向修改坐标,进行移动操作
                 Snake.Direction.TOP-> cell.y -= Food.widthAndHeight
                 Snake.Direction.RIGHT-> cell.x += Food.widthAndHeight
                 Snake.Direction.BOTTOM-> cell.y += Food.widthAndHeight
@@ -68,7 +72,10 @@ class Snake() : View{
         }
     }
 
-
+    /**
+     * 根据输入的#{switchDirection}进行转向操作
+     * @param switchDirection 方向枚举
+     */
     fun switchDirection(switchDirection:Snake.Direction){
         val cDirection = cellList[0].direction
         when(switchDirection){
